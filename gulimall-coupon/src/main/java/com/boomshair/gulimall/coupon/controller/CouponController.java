@@ -1,5 +1,6 @@
 package com.boomshair.gulimall.coupon.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -30,6 +31,13 @@ import com.boomshair.common.utils.R;
 public class CouponController {
     @Autowired
     private CouponService couponService;
+
+    @RequestMapping("/member/list")
+    public R memberCoupons() {
+        CouponEntity couponEntity = new CouponEntity();
+        couponEntity.setCouponName("非常开心");
+        return R.ok().put("coupons", new ArrayList<>(Arrays.asList(couponEntity)));
+    }
 
     /**
      * 列表

@@ -4,7 +4,10 @@ import java.util.Arrays;
 import java.util.Map;
 
 
+import com.boomshair.gulimall.member.feign.CouponFeignService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +29,27 @@ import com.boomshair.common.utils.R;
  * @date 2023-03-22 20:52:27
  */
 @RestController
+@RefreshScope()
 @RequestMapping("member/member")
 public class MemberController {
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    CouponFeignService couponFeignService;
+
+    @Value("${my.name}")
+    private String myName;
+
+    @RequestMapping("/name")
+    public R name() {
+        return R.ok().put("name", myName);
+    }
+
+    @RequestMapping("/coupons")
+    public R getCoupons() {
+        return R.ok().put("couponService", couponFeignService.memberCoupons());
+    }
 
     /**
      * 列表
